@@ -249,6 +249,7 @@
     .question-meta {
       display: flex;
       align-items: center;
+      justify-content: space-between;
       gap: 8px;
       margin-bottom: 9px;
       color: var(--muted);
@@ -257,7 +258,13 @@
       letter-spacing: .1em;
       text-transform: uppercase;
     }
-    .question-meta span:first-child { font-size: 17px; }
+    .question-topic {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      color: var(--accent);
+    }
+    .question-topic-emoji { font-size: 17px; }
     h2 {
       margin-bottom: 19px;
       font-size: clamp(20px, 5vw, 24px);
@@ -411,7 +418,10 @@
       </div>
 
       <div id="quiz">
-        <div class="question-meta"><span aria-hidden="true">🪐</span><span id="questionNumber">Question 1 of 10</span></div>
+        <div class="question-meta">
+          <span class="question-topic"><span class="question-topic-emoji" id="questionEmoji" aria-hidden="true"></span><span id="questionCategory"></span></span>
+          <span id="questionNumber">Question 1 of 10</span>
+        </div>
         <h2 id="questionText"></h2>
         <div class="answers" id="answers" role="group" aria-labelledby="questionText"></div>
         <div class="feedback" id="feedback" role="status" aria-live="polite" hidden>
@@ -525,6 +535,8 @@
     function renderQuestion() {
       const item = questions[current];
       answered = false;
+      $("questionEmoji").textContent = item.emoji;
+      $("questionCategory").textContent = item.category;
       $("questionNumber").textContent = `Question ${current + 1} of ${questions.length}`;
       $("questionText").textContent = item.question;
       $("progressLabel").textContent = `${current} / ${questions.length}`;
